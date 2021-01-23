@@ -21,6 +21,10 @@ class Navigation(object):
             print("Путь не является дирректорией")
             return False
 
+    def getLocalDirs(self):
+        os.chdir(self.flowPath)
+        return [path for path in os.listdir() if os.path.isdir(path)]
+
     # Метод выводит текущую директорию
     def getFlowDir(self):
         print(self.flowPath)
