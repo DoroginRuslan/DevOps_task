@@ -1,7 +1,6 @@
 # Файл содержит класс, преданазначенный для навигации по папкам
 import os
 
-
 class Navigation(object):
     # Конструктор, инициирует класс начальным адресом
     def __init__(self, startPath):
@@ -12,19 +11,30 @@ class Navigation(object):
             print("Путь не является дирректорией")
             exit(-1)
 
-    # метод устанавливает текущую директорию с проверкой на существование
+    # Метод устанавливает текущую директорию с проверкой на существование
     def setPath(self, newPath):
         if os.path.isdir(newPath):
-            self.flowPath = newPath
+            os.chdir(newPath)
+            self.flowPath = os.getcwd()
             return True
         else:
             print("Путь не является дирректорией")
             return False
 
+    # Метод выдаёт список папок в директории
     def getLocalDirs(self):
-        os.chdir(self.flowPath)
-        return [path for path in os.listdir() if os.path.isdir(path)]
+        return [path for path in os.listdir(self.getFlowDir()) if os.path.isdir(path)]
 
     # Метод выводит текущую директорию
     def getFlowDir(self):
-        print(self.flowPath)
+        return self.flowPath
+
+    # Метод обновляет текущую директорию в классе os
+    def updateFlowDir(self):
+        return self.setPath(self.getFlowDir())
+
+    def passUp(self):
+        if self.updateFlowDir():
+            return self.setPath("..")
+        else:
+            print("Не удалось перейти в родительскую директорию")
