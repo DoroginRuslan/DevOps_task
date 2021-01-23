@@ -9,7 +9,7 @@ class Navigation(object):
         if self.setPath(startPath):
             print("Директория '", startPath, "' установлена корневой")
         else:
-            print("Путь не является дирректорией")
+            print("Путь '", startPath, "' не является дирректорией")
             exit(-1)
 
     # Метод устанавливает текущую директорию с проверкой на существование
@@ -19,12 +19,13 @@ class Navigation(object):
             self.flowPath = os.getcwd()
             return True
         else:
-            print("Путь не является дирректорией")
+            print("Путь '", newPath, "' не является дирректорией")
             return False
 
     # Метод выдаёт список папок в директории
     def getLocalDirs(self):
-        return [path for path in os.listdir(self.getFlowDir()) if os.path.isdir(path)]
+        self.updateFlowDir()
+        return [lDir for lDir in os.listdir(self.getFlowDir()) if os.path.isdir(lDir)]
 
     # Метод выводит текущую директорию
     def getFlowDir(self):
@@ -46,3 +47,14 @@ class Navigation(object):
     def passIn(self, dirName):
         self.updateFlowDir()
         return self.setPath(dirName)
+
+    # Метод для получения относительных адресов файлов
+    def getFilesAddress(self):
+        if not self.updateFlowDir():
+            return []
+        res_address = []
+        for folder in os.walk("."):
+            for fileFolder in folder[2]:
+                res_address.append(
+                    os.path.normpath(folder[0] + "/" + fileFolder))
+        return res_address
