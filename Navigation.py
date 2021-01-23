@@ -58,3 +58,19 @@ class Navigation(object):
                 res_address.append(
                     os.path.normpath(folder[0] + "/" + fileFolder))
         return res_address
+
+    # Метод для получения данных файла в формате списка строк по относительному пути
+    def getStrFile(self, filePath):
+        if not self.updateFlowDir():
+            return []
+        if not os.path.isfile(filePath):
+            print("Адрес '", filePath, "' не указывает на файл")
+            return []
+        try:
+            file_data = open(filePath, "r")
+            file_text = file_data.readlines()
+            file_data.close()
+            return file_text
+        except:
+            print("Ошибка чтения файла '", filePath, "'")
+            return []
