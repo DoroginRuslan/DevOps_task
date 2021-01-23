@@ -1,6 +1,7 @@
 # Файл содержит класс, преданазначенный для навигации по папкам
 import os
 
+
 class Navigation(object):
     # Конструктор, инициирует класс начальным адресом
     def __init__(self, startPath):
@@ -33,8 +34,15 @@ class Navigation(object):
     def updateFlowDir(self):
         return self.setPath(self.getFlowDir())
 
+    # Метод для перехода в родительский каталог
     def passUp(self):
         if self.updateFlowDir():
             return self.setPath("..")
         else:
             print("Не удалось перейти в родительскую директорию")
+            return False
+
+    # Метод для перехода в дочернюю директорию
+    def passIn(self, dirName):
+        self.updateFlowDir()
+        return self.setPath(dirName)
