@@ -28,3 +28,5 @@ def getTestDirs(rootNavigation, foldersDeep):
 def startTests(rootDir, testsDeep):
     test_dirs = getTestDirs(Navigation(rootDir), testsDeep)
     return [test.getFlowDir() for test in test_dirs]
+
+

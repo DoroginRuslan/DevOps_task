@@ -74,3 +74,7 @@ class Navigation(object):
         except Exception:
             print("Ошибка чтения файла '", filePath, "'")
             return []
+
+    # Метод позволяет склеить относительный и текущий адреса
+    def glueAddress(self, relative_address):
+        return os.path.normpath(self.getFlowDir() + "/" + relative_address)
