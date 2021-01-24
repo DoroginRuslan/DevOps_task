@@ -71,6 +71,6 @@ class Navigation(object):
             file_text = file_data.readlines()
             file_data.close()
             return file_text
-        except:
+        except Exception:
             print("Ошибка чтения файла '", filePath, "'")
             return []
