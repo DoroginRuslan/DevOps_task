@@ -6,9 +6,7 @@ class Navigation(object):
     # Конструктор, инициирует класс начальным адресом
     def __init__(self, startPath):
         self.flowPath = ""
-        if self.setPath(startPath):
-            print("Директория '", startPath, "' установлена корневой")
-        else:
+        if not self.setPath(startPath):
             print("Путь '", startPath, "' не является дирректорией")
             exit(-1)
 
@@ -58,6 +56,14 @@ class Navigation(object):
                 res_address.append(
                     os.path.normpath(folder[0] + "/" + fileFolder))
         return res_address
+
+    # Метод для получения списка папок в дочерней директории
+    def getFilesAddressInFolder(self, dirName):
+        if not self.passIn(dirName):
+            return []
+        result = self.getFilesAddress()
+        self.passUp()
+        return result
 
     # Метод для получения данных файла в формате списка строк по относительному пути
     def getStrFile(self, filePath):
