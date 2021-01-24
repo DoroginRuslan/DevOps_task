@@ -7,14 +7,14 @@ class Report(object):
         try:
             open(self.report_file_path, "w").close()
         except Exception:
-            print("Ошибка создания файла '", self.report_file_path)
+            ("Ошибка создания файла '", self.report_file_path)
 
     # Метод добавляет запись в файл отчёта
     def addToReportFile(self, data):
         print(self.report_file_path, "\t", data)
         file_report = open(self.report_file_path, "a")
         try:
-            file_report.write(data)
+            file_report.write(data + "\n")
             file_report.close()
             return True
         except Exception:
@@ -22,12 +22,11 @@ class Report(object):
             file_report.close()
             return False
 
-#    def addToReportFile(self, data):
-#        print(self.report_file_path, "\t", data)
-
+    # Выводит в файл отчёта ошибку теста 1
     def reportErrorTest_1(self, errFolder):
-        self.addToReportFile("directory missing: " + errFolder + "\n")
+        self.addToReportFile("directory missing: " + errFolder)
 
+    # Выводит в файл отчёта ошибку теста 2, часть 1
     def reportErrorTest_2_missing(self, errFolder, pairFolder, noneFiles):
         reportText = "In " + errFolder + " there are missing files present in " + pairFolder + ":"
         trigger_comma = False
@@ -38,6 +37,7 @@ class Report(object):
             trigger_comma = True
         self.addToReportFile(reportText)
 
+    # Выводит в файл отчёта ошибку теста 2, часть 2
     def reportErrorTest_2_extra(self, errFolder, pairFolder, noneFiles):
         reportText = "In " + errFolder + " there are extra files files not present in " + pairFolder + ":"
         trigger_comma = False
@@ -47,3 +47,11 @@ class Report(object):
             reportText += " '" + lostFile + "'"
             trigger_comma = True
         self.addToReportFile(reportText)
+
+    # Выводит в файл отчёта ошибку теста 3 (найдено ключевое слово ERROR)
+    def reportErrorTest_3_Error(self, filePath, lineNumber, line):
+        self.addToReportFile(filePath + "(" + str(lineNumber) + "): " + line)
+
+    # Выводит в файл отчёта ошибку теста 3 (потеряно 'Solver finished at')
+    def reportErrorTest_3_miss_solver(self, filePath):
+        self.addToReportFile(filePath + ": missing 'Solver finished at'")

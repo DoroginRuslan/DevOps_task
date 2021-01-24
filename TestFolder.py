@@ -1,6 +1,7 @@
 # Файл содержит реализация класса Navigation, предназначенного для запуска тестов в папке
 from Navigation import Navigation
 from Report import Report
+import re
 
 
 class TestFolder(Navigation, Report):
@@ -34,9 +35,12 @@ class TestFolder(Navigation, Report):
 
     # Метод проверяет набор файлов в папках ft_run и ft_reference
     def checkFilesSet(self):
+        regexMask = r'\.stdout$'
         test_success = True
-        lost_files_ft_run = self.noneElements(self.getFilesAddressInFolder(self.ft_run), self.getFilesAddressInFolder(self.ft_reference))
-        lost_files_ft_reference = self.noneElements(self.getFilesAddressInFolder(self.ft_reference), self.getFilesAddressInFolder(self.ft_run))
+        lost_files_ft_run = self.noneElements(self.getFilesAddressInFolder(self.ft_run, regexMask),
+                                              self.getFilesAddressInFolder(self.ft_reference, regexMask))
+        lost_files_ft_reference = self.noneElements(self.getFilesAddressInFolder(self.ft_reference, regexMask),
+                                                    self.getFilesAddressInFolder(self.ft_run, regexMask))
         if lost_files_ft_run:
             test_success = False
             self.reportErrorTest_2_missing(self.ft_run, self.ft_reference, lost_files_ft_run)
@@ -44,3 +48,19 @@ class TestFolder(Navigation, Report):
             test_success = False
             self.reportErrorTest_2_missing(self.ft_run, self.ft_reference, lost_files_ft_reference)
         return test_success
+
+    # Метод проверяет наличие ошибок в файлах каталога ft_run
+    def checkFtRun(self):
+        self.passIn(self.ft_run)
+        for log_file_path in self.getFilesAddress():
+            lineIterator = 0
+            solverFind = False
+            for log_file_line in self.getStrFile(log_file_path):
+                lineIterator += 1
+                # Поиск регистронезависимого слова Error в строке
+                if re.findall(r'\b[eE][rR]{2}[oO][rR]\b', log_file_line):
+                    self.reportErrorTest_3_Error(log_file_path, lineIterator, log_file_line.rstrip())
+                if re.match(r'Solver finished at', log_file_line):
+                    solverFind = True
+            if not solverFind:
+                self.reportErrorTest_3_miss_solver(log_file_path)

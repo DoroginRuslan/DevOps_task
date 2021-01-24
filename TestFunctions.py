@@ -25,5 +25,11 @@ def startTests(rootDir, testsDeep):
     test_dirs = getTestDirs(TestFolder(rootDir), testsDeep)
     for testFolder in test_dirs:
         testFolder.initReportFile()
-        testFolder.checkFilesSet()
+        if not testFolder.checkExistFolders():
+            print(testFolder.getFlowDir() + "\t ошибка в тесте 1, завершение...")
+            continue
+        if not testFolder.checkFilesSet():
+            print(testFolder.getFlowDir() + "\t ошибка в тесте 2, завершение...")
+            continue
+        testFolder.checkFtRun()
 

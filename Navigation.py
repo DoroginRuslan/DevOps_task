@@ -1,5 +1,6 @@
 # Файл содержит класс, преданазначенный для навигации по папкам
 import os
+import re
 
 
 class Navigation(object):
@@ -47,21 +48,22 @@ class Navigation(object):
         return self.setPath(dirName)
 
     # Метод для получения относительных адресов файлов
-    def getFilesAddress(self):
+    def getFilesAddress(self, regexMask=r'.'):
         if not self.updateFlowDir():
             return []
         res_address = []
         for folder in os.walk("."):
             for fileFolder in folder[2]:
-                res_address.append(
-                    os.path.normpath(folder[0] + "/" + fileFolder))
+                file_address = os.path.normpath(folder[0] + "/" + fileFolder)
+                if re.findall(regexMask, file_address):
+                    res_address.append(file_address)
         return res_address
 
-    # Метод для получения списка папок в дочерней директории
-    def getFilesAddressInFolder(self, dirName):
+    # Метод для получения списка адресов в дочерней директории
+    def getFilesAddressInFolder(self, dirName, regexMask=r'.'):
         if not self.passIn(dirName):
             return []
-        result = self.getFilesAddress()
+        result = self.getFilesAddress(regexMask)
         self.passUp()
         return result
 
