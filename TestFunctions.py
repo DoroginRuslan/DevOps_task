@@ -1,15 +1,12 @@
-from Navigation import Navigation
-import os
+from TestFolder import TestFolder
 import copy
 
 
 # Возвращает объект класса Navigation с переходом на уровень вниз
-def copyNavigationWithIn(navigation, nextFolder):
-    new_navigation = copy.deepcopy(navigation)
-    if new_navigation.passIn(nextFolder):
-        return new_navigation
-    else:
-        return None
+def copyNavigationWithIn(testFolder, nextFolder):
+#    new_navigation = copy.deepcopy(testFolder)
+    new_navigation = TestFolder(testFolder.glueAddress(nextFolder))
+    return new_navigation
 
 
 # Получение списка объектов Navigation с установленными корневыми каталогами тестирования
@@ -26,7 +23,6 @@ def getTestDirs(rootNavigation, foldersDeep):
 
 
 def startTests(rootDir, testsDeep):
-    test_dirs = getTestDirs(Navigation(rootDir), testsDeep)
-    return [test.getFlowDir() for test in test_dirs]
-
-
+    test_dirs = getTestDirs(TestFolder(rootDir), testsDeep)
+    for testFolder in test_dirs:
+        testFolder.addToReportFile("А? На!\n")

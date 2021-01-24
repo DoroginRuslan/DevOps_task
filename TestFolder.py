@@ -4,7 +4,7 @@ from Report import Report
 
 
 class TestFolder(Navigation, Report):
-    report_file = "report.txt"
+    report_file = "_report.txt"
     ft_run = "ft_run"
     ft_reference = "ft_reference"
 
@@ -15,4 +15,9 @@ class TestFolder(Navigation, Report):
     def checkExistFolders(self):
         test_success = True
         if not TestFolder.ft_run in self.getLocalDirs():
-            self.addToReportFile("")
+            test_success = False
+            self.addToReportFile(TestFolder.ft_run)
+        if not TestFolder.ft_reference in self.getLocalDirs():
+            test_success = False
+            self.addToReportFile(TestFolder.ft_reference)
+        return test_success

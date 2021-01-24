@@ -1,6 +1,7 @@
 class Report(object):
     def __init__(self, report_file_path):
         self.report_file_path = report_file_path
+        self.initReportFile()
 
     # Метод создаёт файл отчёта в папке
     def initReportFile(self):
@@ -20,3 +21,9 @@ class Report(object):
             print("Ошибка записи в файл '", self.report_file_path)
             file_report.close()
             return False
+
+#    def addToReportFile(self, data):
+#        print(self.report_file_path, "\t", data)
+
+    def reportErrorTest_1(self, errFolder):
+        self.addToReportFile("directory missing: " + errFolder + "\n")
