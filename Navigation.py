@@ -1,8 +1,9 @@
-# Файл содержит класс, преданазначенный для навигации по папкам
+# Файл содержит класс, преданазначенный для навигации по тестируемой папке
 import os
 import re
 
 
+# Класс хранит методы для навигации по тестовой папке
 class Navigation(object):
     # Конструктор, инициирует класс начальным адресом
     def __init__(self, startPath):
@@ -86,3 +87,10 @@ class Navigation(object):
     # Метод позволяет склеить относительный и текущий адреса
     def glueAddress(self, relative_address):
         return os.path.normpath(self.getFlowDir() + "/" + relative_address)
+
+    # Метод позволяет получить файл относительно папки
+    def getStrFileInFolder(self, folder_path, relative_file):
+        self.passIn(folder_path)
+        result = self.getStrFile(relative_file)
+        self.passUp()
+        return result

@@ -1,3 +1,4 @@
+# Файл содержит функции для последовательного запуска тестов и обработки их результатов
 from TestFolder import TestFolder
 
 
@@ -32,4 +33,5 @@ def startTests(rootDir, testsDeep):
             print(testFolder.getFlowDir() + "\t ошибка в тесте 2, завершение...")
             continue
         testFolder.checkFtRun()
+        testFolder.checkCompFilesInDirs()
 
