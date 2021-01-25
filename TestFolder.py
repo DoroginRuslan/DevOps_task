@@ -24,7 +24,6 @@ def findMaxSetPeak(logLines):
 
 # Класс хранит тесты для папки
 class TestFolder(Navigation, Report):
-    report_file = "_report.txt"
     ft_run = "ft_run"
     ft_reference = "ft_reference"
 
@@ -96,13 +95,14 @@ class TestFolder(Navigation, Report):
         filesList = self.getFilesAddressInFolder(self.ft_run, regexMask)
         for logFile in filesList:
             log_ft_run_mem_max, log_ft_run_bricks_last = findMaxSetPeak(self.getStrFileInFolder(self.ft_run, logFile))
-            log_ft_ref_mem_max, log_ft_ref_bricks_last = findMaxSetPeak(self.getStrFileInFolder(self.ft_reference, logFile))
+            log_ft_ref_mem_max, log_ft_ref_bricks_last = findMaxSetPeak(
+                self.getStrFileInFolder(self.ft_reference, logFile))
             if max(log_ft_run_mem_max, log_ft_ref_mem_max) / min(log_ft_run_mem_max, log_ft_ref_mem_max) > 5.0:
                 self.reportErrorTest_4_memory_peak(logFile, log_ft_run_mem_max, log_ft_ref_mem_max)
                 test_success = False
             brick_max = max(log_ft_run_bricks_last, log_ft_ref_bricks_last)
             brick_min = min(log_ft_run_bricks_last, log_ft_ref_bricks_last)
-            if (brick_max - brick_min)/brick_min > 0.1:
+            if (brick_max - brick_min) / brick_min > 0.1:
                 self.reportErrorTest_4_MESH_Bricks(logFile, log_ft_run_bricks_last, log_ft_ref_bricks_last)
                 test_success = False
         return test_success

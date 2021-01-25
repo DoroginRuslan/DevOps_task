@@ -94,3 +94,7 @@ class Navigation(object):
         result = self.getStrFile(relative_file)
         self.passUp()
         return result
+
+    def getRelativeAddress(self, rootFolder):
+        self.updateFlowDir()
+        return os.path.relpath(self.getFlowDir(), rootFolder)
