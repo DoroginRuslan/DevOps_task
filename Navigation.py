@@ -97,4 +97,4 @@ class Navigation(object):
 
     def getRelativeAddress(self, rootFolder):
         self.updateFlowDir()
-        return os.path.relpath(self.getFlowDir(), rootFolder)
+        return os.path.normpath(os.path.relpath(self.getFlowDir(), rootFolder))
