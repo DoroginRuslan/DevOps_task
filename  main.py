@@ -36,9 +36,19 @@ def gen_folders_path(root_folder, deep):
 def distribution_folders_to_test(root_folder, folder_list):
     for folder_path in folder_list:
         os.chdir(folder_path)
-        print("Тестируется папка: " + folder_path)
-        tests.test_folder()
+        if tests.test_folder():
+            print("OK: " + folder_path + '/')
+        else:
+            print("FAIL: " + folder_path + '/')
+            print_report_file()
         os.chdir(root_folder)
+
+
+def print_report_file():
+    file = open("report.txt", "r")
+    for line in file.readlines():
+        print(line.rstrip())
+    file.close()
 
 
 # Начало выполнения программы
