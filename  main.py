@@ -1,7 +1,7 @@
 # С этого файла начинается выполнение программы
 from sys import argv
 import os
-
+import tests
 
 # Функция проверяет наличие параметров, переданных программе
 # Возвращает адрес корневой директории в случае успеха
@@ -25,41 +25,22 @@ def gen_folders_path(root_folder, deep):
         return result
     else:
         for localDir in os.listdir(root_folder):
-            result.append(os.path.join(root_folder, localDir))
+            result.append(os.path.normpath(os.path.join(root_folder, localDir)))
         return result
 
 
 # Функция отправляет директории на тестирования,
 # анализирует результаты, выводит данные в лог
 # param[in] folder_list - список тестируемых директорий
-def distribution_folders_to_test(folder_list):
+def distribution_folders_to_test(root_folder, folder_list):
     for folder_path in folder_list:
-        test_folder(folder_path)
-
-
-# Функция тестирует папку и выводит ошибки в метсный файл лога
-# param[in] - тестируемая директория
-# return - результат тестирования True/False
-def test_folder(folder_path):
-    print("Тестируется папка: " + folder_path)
-    test_1 = test_check_exist_folders(folder_path, ["ft_reference", "ft_run"])
-    if test_1:
-        print("\tОтсутствующие директории: " + ''.join(test_1))
-
-
-# функция проверяет наличие папок в тестируемой директории
-# param[in] folder_path - тестируемая директория
-# param[in] list_in_dirs - папки, которые должны находиться внутри тестируемой директории
-# return - список отсутсвующих папок
-def test_check_exist_folders(folder_path, list_required_dirs):
-    result = []
-    list_path_dirs = os.listdir(folder_path)
-    for required_folder in list_required_dirs:
-        if required_folder not in list_path_dirs:
-            result.append(required_folder)
-    return result
+        os.chdir(folder_path)
+        print("Тестируется папка: " + folder_path)
+        tests.test_folder()
+        os.chdir(root_folder)
 
 
 # Начало выполнения программы
-folders_list = gen_folders_path(get_program_args(), 1)
-distribution_folders_to_test(folders_list)
+os.chdir(get_program_args())
+folders_list = sorted(gen_folders_path(".", 1))
+distribution_folders_to_test(get_program_args(), folders_list)
