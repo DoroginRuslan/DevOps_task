@@ -132,6 +132,7 @@ def check_files(ft_reference, ft_run):
     return test_3_is_solver, test_3_errors, test_4_mem, test_4_bricks
 
 
+# ф-я для расчёта значений теста 4
 def comp_results(test_4_ft_reference, test_4_ft_run):
     test_4_mem = []     # ft_run, ft_ref, коэфициент, реальная разница
     test_4_bricks = []
@@ -189,5 +190,6 @@ def check_file_lines(file_path, is_ft_run, is_stdout):
     return not is_solver, errors_list, max(mem_res), bricks_res
 
 
+# ф-я для рассчёта реальной разницы
 def calcRelDiff(a, b):
     return (max(a, b) - min(a, b)) / min(a, b)
