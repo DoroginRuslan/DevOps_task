@@ -14,6 +14,7 @@ def test_folder():
         print("In ft_run there are missing files present in ft_reference: " + ''.join(ft_run_not_files))
     if ft_run_extra_files:
         print("In ft_run there are extra files files not present in ft_reference: " + ''.join(ft_run_extra_files))
+    check_files("ft_reference", "ft_run")
 
 
 # функция проверяет наличие папок в тестируемой директории
@@ -62,3 +63,33 @@ def files_in_folder(folder_path, regex_mask=r'.'):
                 res_address.append(file_address)
     os.chdir(saved_path)
     return res_address
+
+
+# функция запускает построчное тестирование файлов из папки
+def check_files(ft_reference, ft_run):
+    # анализ папки ft_run
+    ft_run_files = files_in_folder(ft_run)
+    saved_dir = os.getcwd()
+    os.chdir(ft_run)
+    for file in ft_run_files:
+        errors = check_file_lines(file, True, True)
+        for error in errors:
+            print('line number: {:d}, text: "{}"'.format(error[0], error[1].rstrip()))
+    os.chdir(os.path.join(saved_dir, ft_reference))
+    os.chdir(saved_dir)
+
+
+# функция анализа файла по строкам
+def check_file_lines(file_path, is_ft_run, is_stdout):
+    errors_list = []    # список для сохранения строк со словом error
+    file_data = open(file_path, "r")
+    line_number = 0
+    for line in file_data:
+        line_number += 1
+        if is_ft_run:
+            if re.findall(r'\berror\b', line, re.IGNORECASE):
+                errors_list.append([line_number, line])
+#        if is_stdout:
+#            if re
+    return errors_list
+

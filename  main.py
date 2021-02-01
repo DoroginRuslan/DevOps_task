@@ -3,6 +3,7 @@ from sys import argv
 import os
 import tests
 
+
 # Функция проверяет наличие параметров, переданных программе
 # Возвращает адрес корневой директории в случае успеха
 def get_program_args():
