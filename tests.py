@@ -46,9 +46,8 @@ def test_folder():
 
 
 def add_to_log(text):
-    file = open("report.txt", "a")
-    file.write(text + "\n")
-    file.close()
+    with open("report.txt", "a") as file:
+        file.write(text + "\n")
 
 
 # функция проверяет наличие папок в тестируемой директории

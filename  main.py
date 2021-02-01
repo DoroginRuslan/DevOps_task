@@ -45,10 +45,9 @@ def distribution_folders_to_test(root_folder, folder_list):
 
 
 def print_report_file():
-    file = open("report.txt", "r")
-    for line in file.readlines():
-        print(line.rstrip())
-    file.close()
+    with open("report.txt", "r") as file:
+        for line in file.readlines():
+            print(line.rstrip())
 
 
 # Начало выполнения программы
