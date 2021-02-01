@@ -34,13 +34,13 @@ def test_folder():
         result = False
     for error in test_4_mem:
         add_to_log("{}: different 'Memory Working Set Peak' "
-                   "(ft_run={:.1f}, ft_reference={:.2f}, rel.diff={:.2f}, criterion=4)"
-                   "".format(error[0], error[1], error[2], error[3]))
+                   "(ft_run={:.1f}, ft_reference={:.2f}, rel.diff={:.2f}, criterion={:d})"
+                   "".format(error[0], error[1], error[2], error[3], 4))
         result = False
     for error in test_4_bricks:
         add_to_log("{}: different 'Total' of bricks "
-                   "(ft_run={:d}, ft_reference={:d}, rel.diff={:.2f}, criterion=0.1)"
-                   "".format(error[0], error[1], error[2], error[3]))
+                   "(ft_run={:d}, ft_reference={:d}, rel.diff={:.2f}, criterion={:.1f})"
+                   "".format(error[0], error[1], error[2], error[3], 0.1))
         result = False
     return result
 
